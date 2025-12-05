@@ -1,36 +1,169 @@
+<!-- Full-screen Jump Game with Menu, Levels, Name Input, Save Progress -->
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geometry Dash Pro – Quang Edition</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="save.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jump Game</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #111; font-family: sans-serif; overflow: hidden; }
+
+    #menu, #nameInput, #levelSelect, #gameOver, #winScreen {
+      position: absolute; inset: 0; display: flex;
+      flex-direction: column; justify-content: center; align-items: center;
+      background: rgba(0,0,0,0.85); color: white; font-size: 28px; gap: 20px;
+    }
+
+    button {
+      padding: 12px 30px; font-size: 20px;
+      border: none; border-radius: 10px;
+      cursor: pointer; background: #ffcc00;
+    }
+
+    canvas { background: #222; display: none; }
+  </style>
 </head>
 <body>
+  <div id="menu">
+    <h1>JUMP GAME PRO</h1>
+    <button onclick="openNameInput()">Bắt đầu</button>
+  </div>
 
-    <div class="menu-container">
-        <h1 class="title">Geometry Dash Pro</h1>
+  <div id="nameInput" style="display:none;">
+    <h2>Nhập tên nhân vật</h2>
+    <input id="playerName" placeholder="Tên..." style="padding:10px;font-size:18px;">
+    <button onclick="saveName()">OK</button>
+  </div>
 
-        <div class="box">
-            <label>Nhập tên nhân vật:</label>
-            <input id="playerName" placeholder="Tên của bạn..." />
-            <button onclick="saveName()">Lưu tên</button>
-        </div>
+  <div id="levelSelect" style="display:none;">
+    <h2>Chọn màn</h2>
+    <button onclick="startLevel(1)">Màn 1</button>
+    <button onclick="startLevel(2)">Màn 2</button>
+    <button onclick="startLevel(3)">Màn 3</button>
+  </div>
 
-        <div class="box">
-            <h2>Chọn màn chơi</h2>
-            <button onclick="playLevel(1)">Màn 1</button>
-            <button onclick="playLevel(2)">Màn 2</button>
-            <button onclick="playLevel(3)">Màn 3</button>
-        </div>
+  <canvas id="game" width="1280" height="720"></canvas>
 
-        <div class="box">
-            <h3>Tiến trình của bạn:</h3>
-            <p id="progressText">Đang tải...</p>
-        </div>
+  <div id="gameOver" style="display:none;">
+    <h1>Chết rồi…</h1>
+    <button onclick="restart()">Chơi lại</button>
+  </div>
 
-    </div>
+  <div id="winScreen" style="display:none;">
+    <h1>Qua màn!</h1>
+    <button onclick="backToLevel()">Quay lại chọn màn</button>
+  </div>
 
+<script>
+let canvas = document.getElementById("game");
+let ctx = canvas.getContext("2d");
+let player = { x:100, y:600, w:40, h:40, vy:0, onGround:false };
+let gravity = 1;
+let obstacles = [];
+let currentLevel = 1;
+let nameSaved = false;
+let playerName = "";
+
+function openNameInput(){
+  menu.style.display = "none";
+  nameInput.style.display = "flex";
+}
+
+function saveName(){
+  playerName = document.getElementById("playerName").value.trim();
+  if(!playerName) return alert("Nhập tên vào bro");
+  nameSaved = true;
+  nameInput.style.display = "none";
+  levelSelect.style.display = "flex";
+  localStorage.setItem("jumpPlayerName", playerName);
+}
+
+function startLevel(level){
+  currentLevel = level;
+  levelSelect.style.display = "none";
+  canvas.style.display = "block";
+  loadLevel(level);
+  animate();
+}
+
+function loadLevel(id){
+  if(id===1){
+    obstacles = [ {x:400,y:650,w:100,h:50}, {x:700,y:650,w:150,h:50} ];
+  } else if(id===2){
+    obstacles = [ {x:350,y:650,w:150,h:50}, {x:650,y:590,w:150,h:50}, {x:950,y:650,w:150,h:50} ];
+  } else if(id===3){
+    obstacles = [ {x:300,y:650,w:120,h:50}, {x:550,y:600,w:120,h:50}, {x:800,y:550,w:120,h:50}, {x:1100,y:650,w:120,h:50} ];
+  }
+  player.x=100; player.y=600; player.vy=0;
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // Gravity
+  player.vy += gravity;
+  player.y += player.vy;
+
+  // Ground
+  if(player.y + player.h >= 700){
+    player.y = 700 - player.h;
+    player.vy = 0;
+    player.onGround = true;
+  }
+
+  // Draw player
+  ctx.fillStyle = "#0f0";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+
+  // Obstacles
+  ctx.fillStyle = "#f00";
+  for(let ob of obstacles){
+    ctx.fillRect(ob.x, ob.y, ob.w, ob.h);
+
+    // Collision death
+    if(player.x < ob.x+ob.w && player.x+player.w>ob.x && player.y<ob.y+ob.h && player.y+player.h>ob.y){
+      death(); return;
+    }
+  }
+
+  // Win condition
+  if(player.x > 1250){ win(); return; }
+
+  requestAnimationFrame(animate);
+}
+
+function death(){
+  canvas.style.display="none";
+  gameOver.style.display="flex";
+}
+
+function restart(){
+  gameOver.style.display="none";
+  canvas.style.display="block";
+  loadLevel(currentLevel);
+  animate();
+}
+
+function win(){
+  canvas.style.display="none";
+  winScreen.style.display="flex";
+  localStorage.setItem("jumpProgress", currentLevel);
+}
+
+function backToLevel(){
+  winScreen.style.display="none";
+  levelSelect.style.display="flex";
+}
+
+window.addEventListener("keydown", e=>{
+  if(e.code==="Space" && player.onGround){
+    player.vy = -20;
+    player.onGround = false;
+  }
+  if(e.code==="ArrowRight"){ player.x += 10; }
+  if(e.code==="ArrowLeft"){ player.x -= 10; }
+});
+</script>
 </body>
 </html>
