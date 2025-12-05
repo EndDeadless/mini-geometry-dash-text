@@ -1,15 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Geometry Dash</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Geometry Dash Mini — Xịn</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Mini Geometry Dash</h1>
-    <canvas id="gameCanvas" width="800" height="300"></canvas>
+  <div id="app">
+    <header>
+      <div class="brand">GD Mini • Quang</div>
+      <div class="controls">
+        <button id="btnMute" class="icon">🔊</button>
+        <button id="btnFullscreen" class="icon">⤢</button>
+      </div>
+    </header>
 
-    <script src="game.js"></script>
+    <main>
+      <div id="stageWrap">
+        <canvas id="game"></canvas>
+
+        <div id="overlay">
+          <div id="menu" class="panel">
+            <h1>Geometry Dash — Mini</h1>
+            <p class="muted">Nhấn Space / Click / Tap để nhảy</p>
+            <div class="menu-actions">
+              <button id="btnStart" class="primary">Chơi</button>
+              <button id="btnPractice">Chế độ Tập</button>
+            </div>
+            <div class="meta">
+              <span id="bestUI">Best: 0</span>
+              <span id="scoreUI">Score: 0</span>
+            </div>
+          </div>
+
+          <div id="hud" class="panel hidden">
+            <div class="left">
+              <div id="scoreSmall">0</div>
+            </div>
+            <div class="center muted">Tap / Space để nhảy</div>
+            <div class="right">
+              <button id="btnRestart" class="small">↺</button>
+            </div>
+          </div>
+
+          <div id="gameOver" class="panel hidden">
+            <h2>Thua rồi 😵</h2>
+            <div id="endScore">Score: 0</div>
+            <div class="menu-actions">
+              <button id="btnRetry" class="primary">Chơi lại</button>
+              <button id="btnBack" class="small">Về Menu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <small class="muted">Made quick — muốn thêm level / nhạc thì nói tớ</small>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
 </body>
 </html>
