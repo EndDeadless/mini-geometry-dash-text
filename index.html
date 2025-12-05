@@ -1,90 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GD Mini — Pro Edition</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Dash Pro – Quang Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="save.js"></script>
 </head>
 <body>
-  <div id="app">
-    <header>
-      <div class="brand">GD Mini • Pro</div>
-      <div class="top-controls">
-        <span id="playerNameUI" class="muted">Player: <em id="nameDisplay">—</em></span>
-        <button id="btnEnterName" class="small">Đổi tên</button>
-        <button id="btnFullscreen" class="small">⤢</button>
-        <button id="btnMute" class="small">🔊</button>
-      </div>
-    </header>
 
-    <main>
-      <div id="stageWrap">
-        <canvas id="game"></canvas>
+    <div class="menu-container">
+        <h1 class="title">Geometry Dash Pro</h1>
 
-        <!-- Overlay UI -->
-        <div id="overlay">
-          <!-- Menu chính: chọn màn & nhập tên -->
-          <div id="menu" class="panel">
-            <h1>Geometry Dash — Pro</h1>
-            <div class="row">
-              <label>Tên nhân vật:</label>
-              <input id="inputName" type="text" placeholder="Nhập tên (tối đa 12 ký tự)" maxlength="12">
-              <button id="btnSaveName" class="primary">Lưu</button>
-            </div>
-
-            <div class="level-list">
-              <div class="muted">Chọn màn:</div>
-              <div id="levels"></div>
-            </div>
-
-            <div class="meta muted">
-              <span id="globalBest">Best tổng: 0</span>
-              <span id="progressInfo">Progress: 0/0</span>
-            </div>
-          </div>
-
-          <!-- HUD khi chơi -->
-          <div id="hud" class="panel hidden">
-            <div class="left">
-              <div id="scoreSmall">0</div>
-              <div id="levelName" class="muted">Level</div>
-            </div>
-            <div class="center muted">Space / Tap để nhảy</div>
-            <div class="right">
-              <button id="btnPause" class="small">⏸</button>
-              <button id="btnRestart" class="small">↺</button>
-            </div>
-          </div>
-
-          <!-- Pause -->
-          <div id="pause" class="panel hidden">
-            <h2>Tạm dừng</h2>
-            <div class="menu-actions">
-              <button id="btnResume" class="primary">Tiếp tục</button>
-              <button id="btnBackToMenu" class="small">Về Menu</button>
-            </div>
-          </div>
-
-          <!-- Game over -->
-          <div id="gameOver" class="panel hidden">
-            <h2>Thua rồi</h2>
-            <div id="endScore">Score: 0</div>
-            <div class="menu-actions">
-              <button id="btnTryAgain" class="primary">Chơi lại</button>
-              <button id="btnToMenu" class="small">Về Menu</button>
-            </div>
-          </div>
-
+        <div class="box">
+            <label>Nhập tên nhân vật:</label>
+            <input id="playerName" placeholder="Tên của bạn..." />
+            <button onclick="saveName()">Lưu tên</button>
         </div>
-      </div>
-    </main>
 
-    <footer>
-      <small class="muted">Pro bản này lưu tiến trình trên trình duyệt (localStorage). Muốn sync cloud thì bảo tớ.</small>
-    </footer>
-  </div>
+        <div class="box">
+            <h2>Chọn màn chơi</h2>
+            <button onclick="playLevel(1)">Màn 1</button>
+            <button onclick="playLevel(2)">Màn 2</button>
+            <button onclick="playLevel(3)">Màn 3</button>
+        </div>
 
-  <script src="game.js"></script>
+        <div class="box">
+            <h3>Tiến trình của bạn:</h3>
+            <p id="progressText">Đang tải...</p>
+        </div>
+
+    </div>
+
 </body>
 </html>
