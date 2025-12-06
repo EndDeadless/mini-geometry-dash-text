@@ -1,0 +1,11 @@
+:root{--bg:#0b1220;--accent:#ffcc00;--muted:#9aa5b1}
+*{box-sizing:border-box}
+html,body,#gameCanvas{height:100%;margin:0;padding:0}
+body{background:linear-gradient(180deg,#071026 0%, #0b1220 100%);font-family:Inter, system-ui, sans-serif;color:#fff}
+.menu-header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px}
+.menu-main{display:flex;flex-direction:column;align-items:center;gap:20px;padding:40px}
+.levels{display:flex;gap:18px}
+.level-card{display:inline-block;padding:18px 28px;background:rgba(255,255,255,0.06);border-radius:12px;text-decoration:none;color:inherit;font-weight:700}
+#gameCanvas{display:block;width:100vw;height:100vh}
+#hud{position:fixed;left:12px;top:12px;color:#fff;font-weight:700}
+button{background:var(--accent);border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
