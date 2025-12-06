@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dash Studio — Menu</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="app">
+<header class="menu-header">
+<h1>Dash Studio</h1>
+<div id="auth-area"></div>
+</header>
+
+
+<main class="menu-main">
+<div class="levels">
+<a class="level-card" href="level1.html">Màn 1 — Khởi động</a>
+<a class="level-card" href="level2.html">Màn 2 — Tốc độ</a>
+<a class="level-card" href="level3.html">Màn 3 — Thử thách</a>
+</div>
+
+
+<div class="settings">
+<button id="open-settings">Cài đặt</button>
+<button id="signout" style="display:none">Đăng xuất</button>
+</div>
+</main>
+
+
+<footer class="menu-footer">Made for Github — Thêm assets vào thư mục <code>assets/</code></footer>
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script src="assets/js/auth.js"></script>
+</body>
+</html>
